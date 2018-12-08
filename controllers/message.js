@@ -33,9 +33,9 @@ const messageController ={
 
       if (req.params.page) page = req.params.page;
 
-      let itemsPerPage = 4;
+      let itemsPerPage = 5;
 
-      Message.find({receiver: userId}).sort('-created_at').populate('emitter','nick').paginate(page, itemsPerPage, (err, messages, total)=>{
+      Message.find({receiver: userId}).sort('-created_at').populate('emitter', {nick:1, image:1}).paginate(page, itemsPerPage, (err, messages, total)=>{
          if (err) throw err;
          if (!messages) return res.status(404).send({message: 'No hay mensajes para mostrar'});
          res.status(200).send({
@@ -52,10 +52,10 @@ const messageController ={
 
       if (req.params.page) page = req.params.page;
 
-      let itemsPerPage = 4;
+      let itemsPerPage = 5;
 
-      Message.find({emitter: userId}).sort('-created_at').populate('receiver','nick').paginate(page, itemsPerPage, (err, messages, total)=>{
-         if (err) throw err;
+      Message.find({emitter: userId}).sort('-created_at').populate('receiver', {nick:1, image:1}).paginate(page, itemsPerPage, (err, messages, total)=>{
+         if (err) return res.status(404).send({messge: err});
          if (!messages) return res.status(404).send({message: 'No hay mensajes para mostrar'});
          res.status(200).send({
             total,

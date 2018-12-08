@@ -48,7 +48,6 @@ const userController ={
             if (err) throw err;
             if (check==false) return res.status(401).send({message: 'La contraseña no es válida'});
             user.password = undefined;
-            user.role = undefined;
             if (params.getToken) return res.status(200).send({message: 'Usuario logueado correctamente.', user: user, token: JwtService.createToken(user)});
             res.status(200).send({message: 'Usuario logueado correctamente.', user: user});
          })
